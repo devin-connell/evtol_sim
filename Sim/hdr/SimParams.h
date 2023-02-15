@@ -4,7 +4,6 @@
 #define __SIMPARAMS_H__
 
 #include <string>
-#include <stdio.h>  //I like c-style file and screen io functions.
 
 #include "SimTypes.h"
 
@@ -16,13 +15,15 @@ public:
     typedef enum SimPreset
     {
         INVALID = 0,
-        DEFAULT,
-        MAX_ALPHA,
+        DEFAULT,            //! Minimum 1 of each type, random for remaining number
+        EQUAL_NUMBER,       //! Equal number of vehicles of all types
+        MAX_ALPHA,          //! 1 of each type all others Alpha type
         MAX_BRAVO,
         MAX_CHARLIE,
         MAX_DELTA,
         MAX_ECHO,
-        MANY_CHARGERS,
+        DOUBLE_CHARGERS,    //! Double the number of default chargers
+        ONE_CHARGER,        //! Limit the number of chargers to 1
         CHARGE_AT_75,
         CHARGE_AT_90,
 
@@ -33,7 +34,7 @@ public:
     SimParams();
     ~SimParams();
 
-    void InitializeParameters(string fileName);
+    bool_t InitializeParameters(string fileName);
 
     void SetTimeStep(float64_t step)
     {
@@ -94,8 +95,6 @@ private:
     uint32_t simDuration;
 
     SimPreset_t simPreset;
-
-
 };
 
 #endif

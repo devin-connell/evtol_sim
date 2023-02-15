@@ -13,12 +13,14 @@
 class Simulation
 {
 public:
-    Simulation();
+    Simulation(SimParams& params);
     ~Simulation();
 
 
 
-    void InitSim(SimParams& params);
+    bool_t InitSim();
+
+    bool_t CreateVehicles();
 
     void RunSim();
 
@@ -29,7 +31,7 @@ private:
 
     vector<Vehicle> vehicleList;
     vector<Statistics> simStats;
-    SimParams simParams;
+    SimParams& simParams;
 
 };
 

@@ -2,7 +2,8 @@
 
 #include "Vehicle.h"
 
-Vehicle::Vehicle()
+Vehicle::Vehicle(SimParams& params) :
+    simParams(params)
 {
     cruiseSpeed = 0;
     batteryCapacity = 0;
@@ -11,8 +12,9 @@ Vehicle::Vehicle()
     numPassengers = 0;
     faultChance = 0.0;
 
-    numFaults = 0;
     currentBattery = 0.0;
+    charging = false;
+    vehicleType = VehicleType::INVALID;
 
 }
 
@@ -21,7 +23,7 @@ Vehicle::~Vehicle()
     
 }
 
-void Vehicle::InitializeVehicle(VehicleType_t type)
+void Vehicle::InitializeVehicle(VehicleType type)
 {
     vehicleType = type;
     switch (vehicleType)

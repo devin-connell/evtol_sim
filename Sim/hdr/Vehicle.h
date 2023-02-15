@@ -11,25 +11,23 @@ class Vehicle
 {
 public:
 
-    typedef enum VehicleType
+    enum VehicleType
     {
         INVALID = 0,
         ALPHA,
         BRAVO,
         CHARLIE,
         DELTA,
-        ECHO,
+        ECHO
 
-        NUM_TYPES
+    };
 
-    } VehicleType_t;
-
-    Vehicle();
+    Vehicle(SimParams& params);
     ~Vehicle();
 
     void Update();
 
-    void InitializeVehicle(VehicleType_t type);
+    void InitializeVehicle(VehicleType type);
 
     //Setters and Getters.
     void SetCruiseSpeed(uint32_t speed)
@@ -107,7 +105,7 @@ public:
         return charging;
     }
 
-    VehicleType_t GetVehicleType()
+    VehicleType GetVehicleType()
     {
         return vehicleType;
     }
@@ -115,21 +113,20 @@ public:
 
 private:
 
-    uint32_t cruiseSpeed;
-    uint32_t batteryCapacity;
-    float64_t chargeTime;
-    float64_t energyUse;
-    uint32_t numPassengers;
-    float64_t faultChance;
+    uint32_t cruiseSpeed;               //! Maximum speed of the vehicle in miles per hour
+    uint32_t batteryCapacity;           //! Maximum battery capacity
+    float64_t chargeTime;               //! Time in hours to reach full battery
+    float64_t energyUse;                //! Rate of battery drain at cruise speed per hour
+    uint32_t numPassengers;             //! Passenger capacity, always full
+    float64_t faultChance;              //! Probability of fault per hour
 
-    uint32_t numFaults;
-    float64_t currentBattery;
-    bool_t charging;
+    float64_t currentBattery;           //! Battery level, determined as function of time and usage rate.
+    bool_t charging;                    //! True when the vehicle is charging, distance is not updated during this time.
 
     Statistics vehicleStats;
-    SimParams simParams;
+    SimParams& simParams;
 
-    VehicleType_t vehicleType;
+    VehicleType vehicleType;
 };
 
 #endif
