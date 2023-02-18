@@ -55,12 +55,12 @@ public:
         return numFaults;
     }
 
-    void SetPassengerMiles(uint32_t miles)
+    void SetPassengerMiles(float64_t miles)
     {
         passengerMiles = miles;
     }
 
-    uint32_t GetPassengerMiles()
+    float64_t GetPassengerMiles()
     {
         return passengerMiles;
     }
@@ -71,7 +71,7 @@ private:
     float64_t flightDistance;
     float64_t chargeTime;
     uint32_t numFaults;                 //! Count of faults that occurred during the sim
-    uint32_t passengerMiles;
+    float64_t passengerMiles;
 
 };
 

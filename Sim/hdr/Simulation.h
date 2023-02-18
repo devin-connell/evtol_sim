@@ -4,6 +4,7 @@
 #define __SIMULATION_H__
 
 #include <vector>
+#include <queue>
 
 #include "SimTypes.h"
 #include "SimParams.h"
@@ -16,8 +17,6 @@ public:
     Simulation(SimParams& params);
     ~Simulation();
 
-
-
     bool_t InitSim();
 
     bool_t CreateVehicles();
@@ -27,10 +26,12 @@ public:
 private:
 
     void UpdateSim();
-    void UpdateStatistics();
+    void ComputeStatistics();
 
     vector<Vehicle> vehicleList;
-    vector<Statistics> simStats;
+
+    vector<queue<uint32_t>> chargerList;
+
     SimParams& simParams;
 
 };

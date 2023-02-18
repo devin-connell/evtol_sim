@@ -29,6 +29,8 @@ public:
 
     void InitializeVehicle(VehicleType type);
 
+    bool_t ComputeFault(float64_t timeElapsed);
+
     //Setters and Getters.
     void SetCruiseSpeed(uint32_t speed)
     {
@@ -100,6 +102,41 @@ public:
         simParams = params;
     }
 
+    void SetChargerNeeded(bool_t status)
+    {
+        chargerNeeded = status;
+    }
+
+    bool_t GetChargerNeeded()
+    {
+        return chargerNeeded;
+    }
+    
+    void SetWaitingForCharger(bool_t status)
+    {
+        waitingForCharger = status;
+    }
+
+    bool_t GetWaitingForCharger()
+    {
+        return waitingForCharger;
+    }
+
+    void SetChargingComplete(bool_t status)
+    {
+        chargingComplete = status;
+    }
+
+    bool_t GetChargingComplete()
+    {
+        return chargingComplete;
+    }
+
+    void SetChargingStatus(bool_t status)
+    {
+        charging = status;
+    }
+
     bool_t GetChargingStatus()
     {
         return charging;
@@ -122,6 +159,9 @@ private:
 
     float64_t currentBattery;           //! Battery level, determined as function of time and usage rate.
     bool_t charging;                    //! True when the vehicle is charging, distance is not updated during this time.
+    bool_t chargerNeeded;               //! Signals to the simulation that this vehicle needs to connect to a charger
+    bool_t chargingComplete;            //! Signals the simulation that this vehicle is done charging and can be removed from a charger queue
+    bool_t waitingForCharger;           //! Indicates this vehicle is still waiting for a charger to be available.
 
     Statistics vehicleStats;
     SimParams& simParams;

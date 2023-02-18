@@ -14,6 +14,9 @@ Vehicle::Vehicle(SimParams& params) :
 
     currentBattery = 0.0;
     charging = false;
+    chargerNeeded = false;
+    chargingComplete = false;
+    waitingForCharger = false;
     vehicleType = VehicleType::INVALID;
 
 }
@@ -116,8 +119,67 @@ void Vehicle::InitializeVehicle(VehicleType type)
     } // END SWITCH
 }
 
-//Increment time step and check current values vs vehicle capabilities.
+//Compute amount of time elapsed since last iteration and check current values vs vehicle capabilities.
 void Vehicle::Update()
 {
-    
+    //Determine what how much things changed over the time step
+
+    //Distance += speed * timeStep (hours)
+    //Battery -= energyUse / distance (miles)
+
+    float64_t time_elapsed = simParams.GetTimeStep() / 3600.0; //hours
+
+    if (ComputeFault(time_elapsed))
+    {
+        vehicleStats.IncrementNumFaults();
+    }
+
+    if (charging)
+    {
+        //amount of battery gained per time step:
+        //charging rate = capacity/charge time
+        //battery gained = rate * time_elapsed.
+        //When battery total >= capacity then charging = false
+        float64_t charging_rate = GetBatteryCapacity() / GetChargeTime();
+        float64_t charge_gained = charging_rate * time_elapsed;
+        currentBattery = currentBattery + charge_gained;
+        vehicleStats.SetChargeTime(vehicleStats.GetChargeTime() + time_elapsed);
+
+        if (currentBattery >= GetBatteryCapacity())
+        {
+            currentBattery = GetBatteryCapacity();
+            chargingComplete = true;
+        }
+    }
+    else if (waitingForCharger)
+    {
+        vehicleStats.SetChargeTime(vehicleStats.GetChargeTime() + time_elapsed);
+    }
+    else
+    {
+        float64_t distance = GetCruiseSpeed() * time_elapsed;
+        float64_t battery = GetEnergyUse() * distance;  
+
+        //only increase distance if not charging
+        vehicleStats.SetFlightDistance(vehicleStats.GetFlightDistance() + distance);
+        currentBattery = currentBattery - battery;
+        vehicleStats.SetFlightTime(vehicleStats.GetFlightTime() + time_elapsed);
+        vehicleStats.SetPassengerMiles(vehicleStats.GetPassengerMiles() + ((float64_t)GetNumPassengers() * distance));
+
+        if (currentBattery <= 0.0)
+        {
+            //Next time step the vehicle will be on the charger.
+            currentBattery = 0.0;
+            chargerNeeded = true;
+            waitingForCharger = true;
+        }
+    }
+}
+
+bool_t Vehicle::ComputeFault(float64_t timeElapsed)
+{
+    //Chance of fault per time increment is the fault chance per hour * number of hours elapsed per time increment.
+    float64_t fault_chance = GetFaultChance() * timeElapsed;
+
+    return ((float64_t)((float64_t)rand() / (float64_t)RAND_MAX)) < fault_chance;
 }
