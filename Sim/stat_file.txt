@@ -1,0 +1,40 @@
+Vehicle Type: ALPHA
+Num Vehicles: 4
+Flight Distance: 1005.93 miles
+Passenger Miles: 4023.73 miles
+Flight Time: 8.38278 hours
+Charge Time: 2.4 hours
+Num Faults: 2
+
+Vehicle Type: BRAVO
+Num Vehicles: 1
+Flight Distance: 133.333 miles
+Passenger Miles: 666.667 miles
+Flight Time: 1.33333 hours
+Charge Time: 0.2 hours
+Num Faults: 0
+
+Vehicle Type: CHARLIE
+Num Vehicles: 8
+Flight Distance: 1600.71 miles
+Passenger Miles: 4802.13 miles
+Flight Time: 10.0044 hours
+Charge Time: 6.4 hours
+Num Faults: 2
+
+Vehicle Type: DELTA
+Num Vehicles: 3
+Flight Distance: 567.825 miles
+Passenger Miles: 1135.65 miles
+Flight Time: 6.30917 hours
+Charge Time: 1.86 hours
+Num Faults: 3
+
+Vehicle Type: ECHO
+Num Vehicles: 4
+Flight Distance: 195.292 miles
+Passenger Miles: 390.583 miles
+Flight Time: 6.50972 hours
+Charge Time: 1.2 hours
+Num Faults: 6
+

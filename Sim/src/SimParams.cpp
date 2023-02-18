@@ -43,17 +43,20 @@ bool_t SimParams::InitializeParameters(string fileName)
 
         while (getline(cfg_file, file_line))
         {
+            //Ignore blank and comment lines (comment lines begin with the '#' symbol
             if (file_line.size() == 0 || file_line[0] == '#')
             {
                 continue;
             }
 
+            //Find where the equal sign is in the line
             token_position = (uint32_t)file_line.find('=', 0);
             if (token_position != string::npos)
             {
                 token = file_line.substr(0, token_position);
                 value = file_line.substr((uint64_t)token_position + 1, string::npos);
 
+                //Set token to uppercase for easy comparison.
                 for (uint16_t i = 0; i<token.length(); ++i)
                 {
                     token[i] = toupper(token[i]);
@@ -65,6 +68,18 @@ bool_t SimParams::InitializeParameters(string fileName)
                     if (simPreset > SimPreset::NUM_PRESETS)
                     {
                         simPreset = SimPreset::DEFAULT;
+                    }
+
+                    //if sim preset is default set all default params and return.
+                    if (simPreset == SimPreset::DEFAULT)
+                    {
+                        timeStep = 1;
+                        numVehicles = 20;
+                        numChargers = 3;
+                        simDuration = 3;
+                        error_count = 0;
+                        //break out of the loop and end immediately.
+                        break;
                     }
                 }
                 else if (token.compare(TIME_STEP) == 0)

@@ -1,9 +1,8 @@
 
-
-
 #include "SimTypes.h"
 #include "SimParams.h"
 #include "Simulation.h"
+#include "Statistics.h"
 
 
 int main()
@@ -20,5 +19,10 @@ int main()
         evtol_sim.RunSim();
     }
 
+    evtol_sim.ComputeStatistics();
+
+    evtol_sim.PrintStatistics();
+
     return 0;
 }
+

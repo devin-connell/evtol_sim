@@ -129,11 +129,6 @@ void Vehicle::Update()
 
     float64_t time_elapsed = simParams.GetTimeStep() / 3600.0; //hours
 
-    if (ComputeFault(time_elapsed))
-    {
-        vehicleStats.IncrementNumFaults();
-    }
-
     if (charging)
     {
         //amount of battery gained per time step:
@@ -150,9 +145,16 @@ void Vehicle::Update()
             currentBattery = GetBatteryCapacity();
             chargingComplete = true;
         }
+
+        if (ComputeFault(time_elapsed))
+        {
+            vehicleStats.IncrementNumFaults();
+        }
     }
     else if (waitingForCharger)
     {
+        //Only increment charge time while waiting for a charger.
+        //Do not compute faults while waiting for the charger, vehicle would be off.
         vehicleStats.SetChargeTime(vehicleStats.GetChargeTime() + time_elapsed);
     }
     else
@@ -172,6 +174,11 @@ void Vehicle::Update()
             currentBattery = 0.0;
             chargerNeeded = true;
             waitingForCharger = true;
+        }
+
+        if (ComputeFault(time_elapsed))
+        {
+            vehicleStats.IncrementNumFaults();
         }
     }
 }
