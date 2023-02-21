@@ -155,7 +155,8 @@ void Vehicle::Update()
     {
         //Only increment charge time while waiting for a charger.
         //Do not compute faults while waiting for the charger, vehicle would be off.
-        vehicleStats.SetChargeTime(vehicleStats.GetChargeTime() + time_elapsed);
+        float64_t wait_time = vehicleStats.GetWaitTime() + time_elapsed;
+        vehicleStats.SetWaitTime(wait_time);
     }
     else
     {

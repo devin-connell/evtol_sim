@@ -133,13 +133,15 @@ bool_t Simulation::PrintStatistics()
     {
         for (uint16_t i = 0; i < NUM_VEHICLE_TYPES; ++i)
         {
+            float64_t avg_faults = (float64_t)vehicleStats[i].GetNumFaults() / (float64_t)typeCount[i];
             stat_file << "Vehicle Type: " << TypeToString((Vehicle::VehicleType)i) << endl;
             stat_file << "Num Vehicles: " << typeCount[i] << endl;
-            stat_file << "Flight Distance: " << vehicleStats[i].GetFlightDistance() << " miles" << endl;
-            stat_file << "Passenger Miles: " << vehicleStats[i].GetPassengerMiles() << " miles" << endl;
-            stat_file << "Flight Time: " << vehicleStats[i].GetFlightTime() << " hours" << endl;
-            stat_file << "Charge Time: " << vehicleStats[i].GetChargeTime() << " hours" << endl;
-            stat_file << "Num Faults: " << vehicleStats[i].GetNumFaults() << endl;
+            stat_file << "Flight Distance: " << vehicleStats[i].GetFlightDistance() << " miles, with an average of: " << vehicleStats[i].GetFlightDistance() / typeCount[i] << " miles." << endl;
+            stat_file << "Passenger Miles: " << vehicleStats[i].GetPassengerMiles() << " miles, with an average of: " << vehicleStats[i].GetPassengerMiles() / typeCount[i] << " miles." << endl;
+            stat_file << "Flight Time: " << vehicleStats[i].GetFlightTime() << " hours, with an average of: " << vehicleStats[i].GetFlightTime() / typeCount[i] << " hours." << endl;
+            stat_file << "Charge Time: " << vehicleStats[i].GetChargeTime() << " hours, with an average of: " << vehicleStats[i].GetChargeTime() / typeCount[i] << " hours." << endl;
+            stat_file << "Wait Time: " << vehicleStats[i].GetWaitTime() << " hours, with an average of: " << vehicleStats[i].GetWaitTime() / typeCount[i] << " hours." << endl;
+            stat_file << "Num Faults: " << vehicleStats[i].GetNumFaults() << ", with an average of: " << avg_faults << " per vehicle" << endl;
             stat_file << endl;
         }
     }
@@ -213,6 +215,7 @@ void Simulation::ComputeStatistics()
             vehicleStats[Vehicle::VehicleType::ALPHA].SetChargeTime(vehicleStats[Vehicle::VehicleType::ALPHA].GetChargeTime() + vehicleList[i].GetChargeTime());
             vehicleStats[Vehicle::VehicleType::ALPHA].SetFlightDistance(vehicleStats[Vehicle::VehicleType::ALPHA].GetFlightDistance() + vehicleList[i].GetVehicleStats().GetFlightDistance());
             vehicleStats[Vehicle::VehicleType::ALPHA].SetFlightTime(vehicleStats[Vehicle::VehicleType::ALPHA].GetFlightTime() + vehicleList[i].GetVehicleStats().GetFlightTime());
+            vehicleStats[Vehicle::VehicleType::ALPHA].SetWaitTime(vehicleStats[Vehicle::VehicleType::ALPHA].GetWaitTime() + vehicleList[i].GetVehicleStats().GetWaitTime());
             vehicleStats[Vehicle::VehicleType::ALPHA].SetPassengerMiles(vehicleStats[Vehicle::VehicleType::ALPHA].GetPassengerMiles() + vehicleList[i].GetVehicleStats().GetPassengerMiles());
             vehicleStats[Vehicle::VehicleType::ALPHA].SetNumFaults(vehicleStats[Vehicle::VehicleType::ALPHA].GetNumFaults() + vehicleList[i].GetVehicleStats().GetNumFaults());
 
@@ -223,6 +226,7 @@ void Simulation::ComputeStatistics()
             vehicleStats[Vehicle::VehicleType::BRAVO].SetChargeTime(vehicleStats[Vehicle::VehicleType::BRAVO].GetChargeTime() + vehicleList[i].GetChargeTime());
             vehicleStats[Vehicle::VehicleType::BRAVO].SetFlightDistance(vehicleStats[Vehicle::VehicleType::BRAVO].GetFlightDistance() + vehicleList[i].GetVehicleStats().GetFlightDistance());
             vehicleStats[Vehicle::VehicleType::BRAVO].SetFlightTime(vehicleStats[Vehicle::VehicleType::BRAVO].GetFlightTime() + vehicleList[i].GetVehicleStats().GetFlightTime());
+            vehicleStats[Vehicle::VehicleType::BRAVO].SetWaitTime(vehicleStats[Vehicle::VehicleType::BRAVO].GetWaitTime() + vehicleList[i].GetVehicleStats().GetWaitTime());
             vehicleStats[Vehicle::VehicleType::BRAVO].SetPassengerMiles(vehicleStats[Vehicle::VehicleType::BRAVO].GetPassengerMiles() + vehicleList[i].GetVehicleStats().GetPassengerMiles());
             vehicleStats[Vehicle::VehicleType::BRAVO].SetNumFaults(vehicleStats[Vehicle::VehicleType::BRAVO].GetNumFaults() + vehicleList[i].GetVehicleStats().GetNumFaults());
 
@@ -233,6 +237,7 @@ void Simulation::ComputeStatistics()
             vehicleStats[Vehicle::VehicleType::CHARLIE].SetChargeTime(vehicleStats[Vehicle::VehicleType::CHARLIE].GetChargeTime() + vehicleList[i].GetChargeTime());
             vehicleStats[Vehicle::VehicleType::CHARLIE].SetFlightDistance(vehicleStats[Vehicle::VehicleType::CHARLIE].GetFlightDistance() + vehicleList[i].GetVehicleStats().GetFlightDistance());
             vehicleStats[Vehicle::VehicleType::CHARLIE].SetFlightTime(vehicleStats[Vehicle::VehicleType::CHARLIE].GetFlightTime() + vehicleList[i].GetVehicleStats().GetFlightTime());
+            vehicleStats[Vehicle::VehicleType::CHARLIE].SetWaitTime(vehicleStats[Vehicle::VehicleType::CHARLIE].GetWaitTime() + vehicleList[i].GetVehicleStats().GetWaitTime());
             vehicleStats[Vehicle::VehicleType::CHARLIE].SetPassengerMiles(vehicleStats[Vehicle::VehicleType::CHARLIE].GetPassengerMiles() + vehicleList[i].GetVehicleStats().GetPassengerMiles());
             vehicleStats[Vehicle::VehicleType::CHARLIE].SetNumFaults(vehicleStats[Vehicle::VehicleType::CHARLIE].GetNumFaults() + vehicleList[i].GetVehicleStats().GetNumFaults());
 
@@ -243,6 +248,7 @@ void Simulation::ComputeStatistics()
             vehicleStats[Vehicle::VehicleType::DELTA].SetChargeTime(vehicleStats[Vehicle::VehicleType::DELTA].GetChargeTime() + vehicleList[i].GetChargeTime());
             vehicleStats[Vehicle::VehicleType::DELTA].SetFlightDistance(vehicleStats[Vehicle::VehicleType::DELTA].GetFlightDistance() + vehicleList[i].GetVehicleStats().GetFlightDistance());
             vehicleStats[Vehicle::VehicleType::DELTA].SetFlightTime(vehicleStats[Vehicle::VehicleType::DELTA].GetFlightTime() + vehicleList[i].GetVehicleStats().GetFlightTime());
+            vehicleStats[Vehicle::VehicleType::DELTA].SetWaitTime(vehicleStats[Vehicle::VehicleType::DELTA].GetWaitTime() + vehicleList[i].GetVehicleStats().GetWaitTime());
             vehicleStats[Vehicle::VehicleType::DELTA].SetPassengerMiles(vehicleStats[Vehicle::VehicleType::DELTA].GetPassengerMiles() + vehicleList[i].GetVehicleStats().GetPassengerMiles());
             vehicleStats[Vehicle::VehicleType::DELTA].SetNumFaults(vehicleStats[Vehicle::VehicleType::DELTA].GetNumFaults() + vehicleList[i].GetVehicleStats().GetNumFaults());
 
@@ -253,6 +259,7 @@ void Simulation::ComputeStatistics()
             vehicleStats[Vehicle::VehicleType::ECHO].SetChargeTime(vehicleStats[Vehicle::VehicleType::ECHO].GetChargeTime() + vehicleList[i].GetChargeTime());
             vehicleStats[Vehicle::VehicleType::ECHO].SetFlightDistance(vehicleStats[Vehicle::VehicleType::ECHO].GetFlightDistance() + vehicleList[i].GetVehicleStats().GetFlightDistance());
             vehicleStats[Vehicle::VehicleType::ECHO].SetFlightTime(vehicleStats[Vehicle::VehicleType::ECHO].GetFlightTime() + vehicleList[i].GetVehicleStats().GetFlightTime());
+            vehicleStats[Vehicle::VehicleType::ECHO].SetWaitTime(vehicleStats[Vehicle::VehicleType::ECHO].GetWaitTime() + vehicleList[i].GetVehicleStats().GetWaitTime());
             vehicleStats[Vehicle::VehicleType::ECHO].SetPassengerMiles(vehicleStats[Vehicle::VehicleType::ECHO].GetPassengerMiles() + vehicleList[i].GetVehicleStats().GetPassengerMiles());
             vehicleStats[Vehicle::VehicleType::ECHO].SetNumFaults(vehicleStats[Vehicle::VehicleType::ECHO].GetNumFaults() + vehicleList[i].GetVehicleStats().GetNumFaults());
 

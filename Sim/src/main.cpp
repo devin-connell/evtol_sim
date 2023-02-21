@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "SimTypes.h"
 #include "SimParams.h"
 #include "Simulation.h"
@@ -16,12 +18,20 @@ int main()
     
     if (sim_ready)
     {
+        cout << "Simulation Executing..." << endl;
         evtol_sim.RunSim();
+    }
+    else
+    {
+        cout << "An Error has occurred, check executable location and configuration file name and location." << endl;
     }
 
     evtol_sim.ComputeStatistics();
 
     evtol_sim.PrintStatistics();
+
+    cout << "Press Enter to exit...";
+    cin.get();
 
     return 0;
 }

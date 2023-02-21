@@ -101,6 +101,10 @@ bool_t SimParams::InitializeParameters(string fileName)
                 else if (token.compare(NUM_CHARGERS) == 0)
                 {
                     numChargers = (uint32_t)stoul(value, NULL, 10);
+                    if (numChargers > 100)
+                    {
+                        numChargers = 100;
+                    }
                 }
                 else if (token.compare(SIM_DURATION) == 0)
                 {
@@ -128,6 +132,10 @@ bool_t SimParams::InitializeParameters(string fileName)
         {
             status = true;
         }
+    }   //End If
+    else
+    {
+        cout << "WARNING: Configuration File Not Found, Using Default Parameters" << endl;
     }
 
     return status;

@@ -105,6 +105,30 @@ public:
     }
 
     //
+    //Name: SetWaitTime
+    //Brief:  Sets the time the vehicle waits for a charger.
+    //
+    //Param[in]: float64_t time in seconds
+    //
+    //Retval: None
+    void SetWaitTime(float64_t time)
+    {
+        waitTime = time;
+    }
+
+    //
+    //Name: GetFaultChances
+    //Brief:  Accesses the vehicle wait time
+    //
+    //Param: None
+    //
+    //Retval: vehicle wait time.
+    float64_t GetWaitTime()
+    {
+        return waitTime;
+    }
+
+    //
     //Name: SetNumFaults
     //Brief:  Sets the number of faults detected. Used when calculating total statistics by vehicle type.
     //
@@ -157,6 +181,7 @@ private:
     float64_t flightTime;               //! Time spent flying in hours
     float64_t flightDistance;           //! Distance flown in miles
     float64_t chargeTime;               //! Time spent charging in hours
+    float64_t waitTime;                 //! Indicates how long the vehicle waited for a charger.
     uint32_t numFaults;                 //! Count of faults that occurred during the sim
     float64_t passengerMiles;           //! Passenger miles flown (vehicle capacity * flight distance)
 
